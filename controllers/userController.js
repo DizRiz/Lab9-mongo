@@ -18,6 +18,17 @@ const createUser = (data, res) => {
         });
 }
 
+const updateUser = (req, res) => {
+    //updates the user matching the ID from the param using JSON data POSTed in request body
+    console.log(req.body)
+    Models.User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false })
+        .then(data => res.send({ result: 200, data: data }))
+        .catch(err => {
+            console.log(err);
+            res.send({ result: 500, error: err.message })
+        })
+}
+    
 const deleteUser =  (id, res) => {
     Models.User.findByIdAndDelete(id, (err, data) => {
         if (err) throw err;
@@ -26,5 +37,5 @@ const deleteUser =  (id, res) => {
 }
     
 module.exports = {
-        getUsers, createUser, deleteUser,
+        getUsers, createUser, updateUser, deleteUser,
     }
